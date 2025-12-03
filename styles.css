@@ -101,3 +101,8 @@ body {
     from { transform: scale(0.95); opacity: 0; }
     to   { transform: scale(1); opacity: 1; }
 }
+header img {
+    /* display: block; and auto margins are removed for flex layout */
+    max-width: 150px; /* Optional: limit logo size */
+    height: auto;
+}

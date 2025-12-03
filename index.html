@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Campus Map: Find Amenities</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center py-8">
+            <h1 class="text-4xl font-extrabold text-gray-900">Campus Amenity Finder</h1>
+            <p class="text-xl text-gray-600 mt-2">Locate essential services on each floor of the building.</p>
+        </header>
+
+        <!-- Main Map Card -->
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+
+            <!-- Floor Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
+                <button id="floor-1-btn" onclick="switchFloor('floor1')" class="floor-btn px-6 py-2 rounded-full font-semibold text-lg transition duration-200 bg-indigo-600 text-white shadow-md hover:bg-indigo-700">Floor 1</button>
+                <button id="floor-2-btn" onclick="switchFloor('floor2')" class="floor-btn px-6 py-2 rounded-full font-semibold text-lg transition duration-200 bg-gray-200 text-gray-700 hover:bg-gray-300">Floor 2</button>
+                <button id="floor-3-btn" onclick="switchFloor('floor3')" class="floor-btn px-6 py-2 rounded-full font-semibold text-lg transition duration-200 bg-gray-200 text-gray-700 hover:bg-gray-300">Floor 3</button>
+            </div>
+
+            <!-- Map Area -->
+            <div id="map-container" class="rounded-xl overflow-hidden relative p-4">
+                <img id="floor-map-image" 
+                     src="" 
+                     alt="Building Floor Plan" 
+                     class="absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-500"
+                >
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Amenity Preview Overlay -->
+    <div id="amenity-overlay">
+        <div class="preview-box">
+
+            <img id="overlay-image" src="" alt="Amenity Preview">
+
+            <div id="overlay-text">
+                <h2 id="overlay-title" class="text-xl font-bold mb-2"></h2>
+                <p id="overlay-location" class="text-gray-600"></p>
+            </div>
+
+        </div>
+    </div>
+
+
+    <footer class="text-center text-sm text-gray-500 py-4 mt-6">
+        &copy; 2025 Campus Map Interactive Demo
+    </footer>
+
+
+
+    <!-- Main Interactive Script -->
+    <script>
+        const mapData = {
+            'floor1': {
+                planUrl: 'images/floor-1.png',
+                amenities: [
+                    { id: '101', type: 'Printer', x: '75%', y: '15%', imageUrl: 'images/microwave-1.jpg' },
+                    { id: '102', type: 'Vending', x: '35%', y: '60%', imageUrl: 'images/vending-machines-1.jpg' },
+                    { id: '103', type: 'Microwave', x: '50%', y: '25%', imageUrl: 'images/vending-machines-2.jpg' },
+                ]
+            },
+            'floor2': {
+                planUrl: 'images/floor-2.png',
+                amenities: [
+                    { id: '201', type: 'Microwave', x: '45%', y: '50%', imageUrl: 'https://placehold.co/400x250/10b981/ffffff?text=Floor+2+Breakroom+Microwave' },
+                    { id: '202', type: 'Printer', x: '77%', y: '23%', imageUrl: 'images/printer-295.jpg'},
+                    { id: '203', type: 'Vending', x: '80%', y: '70%', imageUrl: 'https://placehold.co/400x250/3b82f6/ffffff?text=Floor+2+Vending+Machine' },
+                ]
+            },
+            'floor3': {
+                planUrl: 'images/floor-3.png',
+                amenities: [
+                    { id: '301', type: 'Vending', x: '85%', y: '20%', imageUrl: 'https://placehold.co/400x250/3b82f6/ffffff?text=Floor+3+East+Vending' },
+                    { id: '302', type: 'Microwave', x: '40%', y: '45%', imageUrl: 'https://placehold.co/400x250/10b981/ffffff?text=Floor+3+Central+Breakroom' },
+                    { id: '303', type: 'Printer', x: '15%', y: '70%', imageUrl: 'https://placehold.co/400x250/f59e0b/ffffff?text=Floor+3+West+Printer+Area' },
+                ]
+            }
+        };
+
+        let currentFloor = 'floor1';
+
+        const mapContainer = document.getElementById('map-container');
+        const floorMapImage = document.getElementById('floor-map-image');
+
+        function renderMap(floorKey) {
+            mapContainer.querySelectorAll('.amenity-marker').forEach(m => m.remove());
+
+            const floorData = mapData[floorKey];
+            floorMapImage.src = floorData.planUrl;
+
+            floorData.amenities.forEach(item => {
+                const marker = document.createElement('div');
+                marker.classList.add('amenity-marker');
+
+                let icon = '';
+                let colorClass = '';
+
+                switch (item.type) {
+                    case 'Printer': icon = '🖨️'; colorClass = 'marker-printer'; break;
+                    case 'Microwave': icon = '♨️'; colorClass = 'marker-microwave'; break;
+                    case 'Vending': icon = '🥤'; colorClass = 'marker-vending'; break;
+                }
+
+                marker.classList.add(colorClass);
+                marker.innerHTML = `<span class="text-2xl">${icon}</span>`;
+                marker.style.left = `calc(${item.x} - 2rem)`;
+                marker.style.top = `calc(${item.y} - 2rem)`;
+
+                marker.addEventListener('click', () => showAmenityImage(item, floorKey));
+                mapContainer.appendChild(marker);
+            });
+        }
+
+        function showAmenityImage(amenity, floorKey) {
+            document.getElementById('overlay-image').src = amenity.imageUrl;
+            document.getElementById('overlay-title').textContent = `${amenity.type} (ID: ${amenity.id})`;
+            document.getElementById('overlay-location').textContent =
+                `Located at ${amenity.x} across, ${amenity.y} down on Floor ${floorKey.slice(-1)}.`;
+
+            document.getElementById('amenity-overlay').style.display = 'flex';
+        }
+
+        const overlay = document.getElementById('amenity-overlay');
+        const previewBox = document.querySelector('#amenity-overlay .preview-box');
+
+        overlay.addEventListener('click', e => {
+            if (!previewBox.contains(e.target)) overlay.style.display = 'none';
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') overlay.style.display = 'none';
+        });
+
+        function switchFloor(floorKey) {
+            currentFloor = floorKey;
+
+            document.querySelectorAll('.floor-btn').forEach(btn => {
+                if (btn.id === `${floorKey}-btn`) {
+                    btn.classList.remove('bg-gray-200', 'text-gray-700');
+                    btn.classList.add('bg-indigo-600', 'text-white');
+                } else {
+                    btn.classList.remove('bg-indigo-600', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-700');
+                }
+            });
+
+            renderMap(floorKey);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => switchFloor('floor1'));
+    </script>
+
+</body>
+</html>

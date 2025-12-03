@@ -3,22 +3,22 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f3f4f6;
+    background-color: #95D7AE22; /* subtle wash of palette green */
 }
 
 /* MAP AREA */
 #map-container {
     position: relative;
-    background-color: white;
-    border: 4px solid #1f2937;
+    background-color: #F2C3A5;
+    border: 4px solid #454851;
     height: 500px;
     max-width: 900px;
     margin: 0 auto;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(69,72,81,0.25),
+                0 4px 6px -2px rgba(69,72,81,0.15);
 }
 
-/* MARKERS */
+/* MARKERS — replaced original colors with palette tones */
 .amenity-marker {
     position: absolute;
     width: 4rem;
@@ -35,19 +35,20 @@ body {
 
 .amenity-marker:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 15px rgba(69,72,81,0.5);
     z-index: 30;
 }
 
-.marker-printer { background-color: #f59e0b; }
-.marker-microwave { background-color: #10b981; }
-.marker-vending { background-color: #3b82f6; }
+/* color-coded markers */
+.marker-printer   { background-color: #F2C3A5; }
+.marker-microwave { background-color: #7BAE7F; }
+.marker-vending   { background-color: #73956F; }
 
-/* OVERLAY BACKGROUND */
+/* OVERLAY */
 #amenity-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.55);
+    background: rgba(69,72,81,0.6);
     display: none;
     align-items: center;
     justify-content: center;
@@ -55,9 +56,8 @@ body {
     padding: 1rem;
 }
 
-/* OVERLAY BOX */
 #amenity-overlay .preview-box {
-    background: white;
+    background: #F2C3A5;
     padding: 1.5rem;
     border-radius: 1rem;
     width: 95%;
@@ -65,13 +65,13 @@ body {
     max-height: 90vh;
     overflow-y: auto;
     display: flex;
-    flex-direction: column; /* mobile layout default */
+    flex-direction: column;
     gap: 1rem;
     animation: fadeIn 0.2s ease-out;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    box-shadow: 0 10px 25px rgba(69,72,81,0.35);
 }
 
-/* IMAGE SIZING */
+/* image styling */
 #overlay-image {
     width: 100%;
     height: auto;
@@ -80,7 +80,6 @@ body {
     max-height: 60vh;
 }
 
-/* DESKTOP LAYOUT */
 @media (min-width: 768px) {
     #amenity-overlay .preview-box {
         flex-direction: row;

@@ -71,25 +71,25 @@
             'floor1': {
                 planUrl: 'images/floor-1.png',
                 amenities: [
-                    { id: '101', type: 'Printer', x: '75%', y: '15%', imageUrl: 'images/microwave-1.jpg' },
-                    { id: '102', type: 'Vending', x: '35%', y: '60%', imageUrl: 'images/vending-machines-1.jpg' },
-                    { id: '103', type: 'Microwave', x: '50%', y: '25%', imageUrl: 'images/vending-machines-2.jpg' },
+                    { id: '101', type: 'Bathroom', x: '26%', y: '85%', imageUrl: 'images/bathroom-1.jpg' },
                 ]
             },
             'floor2': {
                 planUrl: 'images/floor-2.png',
                 amenities: [
-                    { id: '201', type: 'Microwave', x: '45%', y: '50%', imageUrl: 'https://placehold.co/400x250/10b981/ffffff?text=Floor+2+Breakroom+Microwave' },
-                    { id: '202', type: 'Printer', x: '77%', y: '23%', imageUrl: 'images/printer-295.jpg'},
-                    { id: '203', type: 'Vending', x: '80%', y: '70%', imageUrl: 'https://placehold.co/400x250/3b82f6/ffffff?text=Floor+2+Vending+Machine' },
+                    { id: '201', type: 'Vending', x: '67%', y: '52%', imageUrl: 'images/vending-machines-1.jpg' },
+                    { id: '202', type: 'Printer', x: '77%', y: '31%', imageUrl: 'images/printer-295.jpg'},
+                    { id: '203', type: 'Microwave', x: '59%', y: '52%', imageUrl: 'images/microwave-1.jpg' },
+                    { id: '204', type: 'Bathroom', x: '55%', y: '35%', imageUrl: 'images/bathroom-2.jpg' },
+                    { id: '205', type: 'Bathroom', x: '60%', y: '43%', imageUrl: 'images/bathroom-3.jpg' },
                 ]
             },
             'floor3': {
                 planUrl: 'images/floor-3.png',
                 amenities: [
-                    { id: '301', type: 'Vending', x: '85%', y: '20%', imageUrl: 'https://placehold.co/400x250/3b82f6/ffffff?text=Floor+3+East+Vending' },
-                    { id: '302', type: 'Microwave', x: '40%', y: '45%', imageUrl: 'https://placehold.co/400x250/10b981/ffffff?text=Floor+3+Central+Breakroom' },
-                    { id: '303', type: 'Printer', x: '15%', y: '70%', imageUrl: 'https://placehold.co/400x250/f59e0b/ffffff?text=Floor+3+West+Printer+Area' },
+                    { id: '301', type: 'Bathroom', x: '60%', y: '45%', imageUrl: 'images/bathroom-4.jpg' },
+                    { id: '302', type: 'Bathroom', x: '22%', y: '84%', imageUrl: 'images/bathroom-5.jpg' },
+                    { id: '303', type: 'Printer', x: '82%', y: '20%', imageUrl: 'images/printer-2.jpg' },
                 ]
             }
         };
@@ -116,6 +116,7 @@
                     case 'Printer': icon = '🖨️'; colorClass = 'marker-printer'; break;
                     case 'Microwave': icon = '♨️'; colorClass = 'marker-microwave'; break;
                     case 'Vending': icon = '🥤'; colorClass = 'marker-vending'; break;
+                    case 'Bathroom': icon = '🚻'; colorClass = 'marker-bathroom'; break;
                 }
 
                 marker.classList.add(colorClass);
